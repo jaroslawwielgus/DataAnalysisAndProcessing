@@ -1,7 +1,7 @@
 <?php
 
 function get_connect() {
-    return new PDO("sqlite:file:database.sqlite");
+    return new PDO("sqlite:file:database_php_data_analysis_and_processing.sqlite");
 }
 
 function init_db($conn) {

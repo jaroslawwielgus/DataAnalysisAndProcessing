@@ -5,6 +5,7 @@ include_once('model.php');
 include_once('test.php');
 
 $conn = get_connect();
+// init_db($conn);
 
 // Uncomment to see data in db
 // run_db_test($conn);
@@ -40,11 +41,11 @@ $month_names = [
   </form>
 
   <div id="data">
-      <h2>Transkacje `User name`</h2>
+      <h2>Transakcje `User name`</h2>
       <table>
           <tr><th>Mounth</th><th>Amount</th></tr>
           <tr><td>...</td><td>...</td>
-       </table>
+      </table>
   </div>
 
   <script src="./js/script.js"></script>
