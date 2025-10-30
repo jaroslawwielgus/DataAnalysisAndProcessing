@@ -6,7 +6,59 @@
 function get_users($conn)
 {
     // TODO: implement
-    return [];
+    $statement = $conn->query('SELECT DISTINCT `users`.`id`, `users`.`name` 
+                                FROM `users`
+                                JOIN `user_accounts` ON `users`.`id` = `user_accounts`.`user_id`
+                                JOIN `transactions` ON `user_accounts`.`id` = `transactions`.`account_from`
+                               UNION
+                               SELECT DISTINCT `users`.`id`, `users`.`name` 
+                                FROM `users`
+                                JOIN `user_accounts` ON `users`.`id` = `user_accounts`.`user_id`
+                                JOIN `transactions` ON `user_accounts`.`id` = `transactions`.`account_to`;');
+    $users = array(); 
+    while ($row = $statement->fetch()) {
+        $users[$row['users'.'id']] = $row['users'.'name'];
+    }
+
+    return $users;
+}
+
+function get_user_transactions_from_amounts_for_given_month($user_id, $conn, $transaction_month)
+{
+    $statement_from = $conn->query('SELECT `transactions`.`amount`
+                                    FROM `transactions` 
+                                    JOIN `user_accounts` ON `transactions`.`account_from` = `user_accounts`.`id`
+                                    WHERE `user_accounts`.`user_id` = '.$user_id .' AND MONTH(`transactions`.`trdate`) = '.$transaction_month .';');
+    $transactions_from = array(); // outgoing transactions
+    while ($row = $statement_from->fetch()) {
+        array_push($transactions_from, -$row['transactions'.'amount']);
+    }
+
+    return $transactions_from;
+}
+
+function get_user_transactions_to_amounts_for_given_month($user_id, $conn, $transaction_month)
+{
+    $statement_to = $conn->query('SELECT `transactions`.`amount`
+                                    FROM `transactions` 
+                                    JOIN `user_accounts` ON `transactions`.`account_to` = `user_accounts`.`id`
+                                    WHERE `user_accounts`.`user_id` = '.$user_id .' AND MONTH(`transactions`.`trdate`) = '.$transaction_month .';');
+    $transactions_to = array(); // incoming transactions
+    while ($row = $statement_to->fetch()) {
+        array_push($transactions_to, $row['transactions'.'amount']);
+    }
+
+    return $transactions_to;
+}
+
+function get_balance_for_given_month($balance, $transactions_for_given_month)
+{
+    for ($i = 0; $i < count($transactions_for_given_month); $i++)
+    {
+        $balance += $transactions_for_given_month[$i];
+    }
+
+    return $balance;
 }
 
 /**
@@ -15,5 +67,22 @@ function get_users($conn)
 function get_user_transactions_balances($user_id, $conn)
 {     
     // TODO: implement
-    return [];
+    $transactions_from = array();
+    $transactions_to = array();
+    $balances = array();
+    for ($i = 0; $i < 12; $i++)
+    {
+        $transactions_from[$i] = get_user_transactions_from_amounts_for_given_month($user_id, $conn, $i + 1);
+        $transactions_to[$i] = get_user_transactions_to_amounts_for_given_month($user_id, $conn, $i + 1);
+
+        $balances[$i] = 0;
+        $balances[$i] = get_balance_for_given_month($balances[$i], $transactions_from[$i]);
+        $balances[$i] = get_balance_for_given_month($balances[$i], $transactions_to[$i]);
+    }
+
+    // print_r('Transactions data<br/>');
+    // print_r($transactions);
+    // print_r('</br>');
+
+    return $balances;
 }
