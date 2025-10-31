@@ -28,7 +28,7 @@ $month_names = [
 <body>
   <h1>Informacja o transakcjach użytkownika</h1>
   <form action="data.php" method="get">
-    <label for="user">Select user:</label>
+    <label for="user">Wybierz użytkownika:</label>
     <select name="user" id="user">
     <?php
     $users = get_users($conn);
@@ -43,11 +43,11 @@ $month_names = [
   <div id="data">
       <h2>Transakcje `User name`</h2>
       <table>
-          <tr><th>Mounth</th><th>Amount</th></tr>
-          <tr><td>...</td><td>...</td>
+          <tr><th>Miesiąc</th><th>Saldo</th></tr>
       </table>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="./js/script.js"></script>
 </body>
 </html>
