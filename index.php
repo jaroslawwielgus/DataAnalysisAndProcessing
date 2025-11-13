@@ -29,7 +29,8 @@ $month_names = [
   <h1>Informacja o transakcjach użytkownika</h1>
   <form action="data.php" method="get">
     <label for="user">Wybierz użytkownika:</label>
-    <select name="user" id="user">
+    <select name="user" id="user" onfocus='this.size=2;' onblur='this.size=0;' 
+            onchange='this.size=1; this.blur();'>
     <?php
     $users = get_users($conn);
     foreach ($users as $id => $name) {
@@ -41,7 +42,7 @@ $month_names = [
   </form>
 
   <div id="data">
-      <h2>Transakcje `User name`</h2>
+      <h2>Transakcje dla </h2>
       <table>
           <tr><th>Miesiąc</th><th>Saldo</th></tr>
       </table>
