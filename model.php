@@ -6,15 +6,15 @@
 function get_users($conn)
 {
     // TODO: implement
-    $statement = $conn->query('SELECT DISTINCT `users`.`id` AS \'users.id\', `users`.`name` AS \'users.name\'
-                                FROM `users`
-                                JOIN `user_accounts` ON `users`.`id` = `user_accounts`.`user_id`
-                                JOIN `transactions` ON `user_accounts`.`id` = `transactions`.`account_from`
+    $statement = $conn->query('SELECT DISTINCT users.id AS \'users.id\', users.name AS \'users.name\'
+                                FROM users
+                                JOIN user_accounts ON users.id = user_accounts.user_id
+                                JOIN transactions ON user_accounts.id = transactions.account_from
                                UNION
-                               SELECT DISTINCT `users`.`id` AS \'users.id\', `users`.`name` AS \'users.name\'
-                                FROM `users`
-                                JOIN `user_accounts` ON `users`.`id` = `user_accounts`.`user_id`
-                                JOIN `transactions` ON `user_accounts`.`id` = `transactions`.`account_to`;');
+                               SELECT DISTINCT users.id AS \'users.id\', users.name AS \'users.name\'
+                                FROM users
+                                JOIN user_accounts ON users.id = user_accounts.user_id
+                                JOIN transactions ON user_accounts.id = transactions.account_to;');
     $users = array(); 
     while ($row = $statement->fetch()) {
         $users[$row['users.id']] = $row['users.name'];
@@ -25,10 +25,12 @@ function get_users($conn)
 
 function get_user_transactions_from_amounts_for_given_month($user_id, $conn, $transaction_month)
 {
-    $statement_from = $conn->query('SELECT `transactions`.`amount`
-                                    FROM `transactions` 
-                                    JOIN `user_accounts` ON `transactions`.`account_from` = `user_accounts`.`id`
-                                    WHERE `user_accounts`.`user_id` = '.$user_id .' AND substr(`transactions`.`trdate`, 6, 2) = substr("00" || \''.$transaction_month .'\', -2, 2);');
+    // echo "Na początku";
+    $statement_from = $conn->prepare('SELECT transactions.amount
+                                    FROM transactions 
+                                    JOIN user_accounts ON transactions.account_from = user_accounts.id
+                                    WHERE user_accounts.user_id = ? AND substr(transactions.trdate, 6, 2) = substr("00" || ?, -2, 2);');
+    $statement_from->execute(array($user_id, $transaction_month));
     $transactions_from = array(); // outgoing transactions
     // echo "coś;";
     while ($row = $statement_from->fetch()) {
@@ -42,10 +44,13 @@ function get_user_transactions_from_amounts_for_given_month($user_id, $conn, $tr
 
 function get_user_transactions_to_amounts_for_given_month($user_id, $conn, $transaction_month)
 {
-    $statement_to = $conn->query('SELECT `transactions`.`amount`
-                                    FROM `transactions` 
-                                    JOIN `user_accounts` ON `transactions`.`account_to` = `user_accounts`.`id`
-                                    WHERE `user_accounts`.`user_id` = '.$user_id .' AND substr(`transactions`.`trdate`, 6, 2) = substr("00" || \''.$transaction_month .'\', -2, 2);');
+    $statement_to = $conn->prepare('SELECT transactions.amount
+                                    FROM transactions
+                                    JOIN user_accounts ON transactions.account_to = user_accounts.id
+                                    WHERE user_accounts.user_id = ? AND substr(transactions.trdate, 6, 2) = substr("00" || ?, -2, 2);');
+    $statement_to->bindValue(1, $user_id);
+    $statement_to->bindValue(2, $transaction_month);
+    $statement_to->execute();
     $transactions_to = array(); // incoming transactions
     while ($row = $statement_to->fetch()) {
         array_push($transactions_to, $row['amount']);
@@ -70,6 +75,7 @@ function get_balance_for_given_month($balance, $transactions_for_given_month)
 function get_user_transactions_balances($user_id, $conn)
 {     
     // TODO: implement
+    // echo "get";
     $transactions_from = array();
     $transactions_to = array();
     $balances = array();
