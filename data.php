@@ -8,13 +8,15 @@ $user_id = isset($_GET['user'])
 
 if ($user_id) 
 {
-    $response_data = [
-        'balances_associative' => [],
-    ];
     $conn = get_connect();
     // Get transactions balances
     $balances = get_user_transactions_balances($user_id, $conn);
     // TODO: implement
+    $response_data = [
+        'balances_associative' => [],
+        // 'error' => ""
+    ];
+    
     $balances_associative = array();
     $balances_associative["Styczeń"] = $balances[0];
     $balances_associative["Luty"] = $balances[1];
@@ -36,5 +38,12 @@ if ($user_id)
     header('Content-Type: application/json');
     echo json_encode($response_data);
 }
+// else
+// {
+//     $response_data['error'] = "Niewybrany użytkownik - użytkownik z transakcjami nie istnieje!";
+// }
+
+// header('Content-Type: application/json');
+// echo json_encode($response_data);
 ?>
 

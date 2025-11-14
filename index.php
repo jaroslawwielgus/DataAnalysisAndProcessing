@@ -1,6 +1,7 @@
 <?php
 
 include_once('db.php');
+//include_once('db_test1.php');
 include_once('model.php');
 include_once('test.php');
 
@@ -10,11 +11,11 @@ $conn = get_connect();
 // Uncomment to see data in db
 // run_db_test($conn);
   
-$month_names = [
-    '01' => 'January',
-    '02' => 'February',
-    '03' => 'March'
-]
+// $month_names = [
+//     '01' => 'January',
+//     '02' => 'February',
+//     '03' => 'March'
+// ]
 ?>
     
 <!DOCTYPE html>
