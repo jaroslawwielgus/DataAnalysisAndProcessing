@@ -1,12 +1,11 @@
 <?php
 
 include_once('db.php');
-//include_once('db_test1.php');
 include_once('model.php');
 include_once('test.php');
 
 $conn = get_connect();
-// init_db($conn);
+init_db($conn);
 
 // Uncomment to see data in db
 // run_db_test($conn);
