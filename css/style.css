@@ -1,11 +1,11 @@
 body {
 	font-family: Arial, sans-serif;
-	background-color: #e0f7fa;
+	background-color: #c5fcc0; /* light green */
 	padding: 20px;
 }
 
 h1 {
-	color: #01579b;
+	color: #074d02; /* very dark green */
 	text-align: center;
 }
 
@@ -32,11 +32,20 @@ select {
 	border-radius: 4px;
 }
 
+select option:hover {
+	box-shadow: 0 0 10px 100px #0a7501 inset !important;
+	color: #fff;
+}
+
+select option:checked {
+	box-shadow: 0 0 10px 100px #0a7501 inset !important;
+}
+
 input[type="submit"] {
 	width: 100%;
 	padding: 10px;
-	background-color: #0288d1;
-	color: white;
+	background-color: #0d9401; /* dark green */
+	color: #fff;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
@@ -44,14 +53,13 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-	background-color: #0277bd;
+	background-color: #0a7501; /* nearly very dark green */
 }
 
 table {
 	width: 100%;
 	margin-top: 20px;
 	border-collapse: collapse;
-	background-color: #fff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -59,20 +67,20 @@ th,
 td {
 	padding: 12px;
 	text-align: left;
-	border: 1px solid #0288d1;
+	border: 1px solid #0d9401; /* dark green */
 }
 
 th {
-	background-color: #0288d1;
-	color: white;
+	background-color: #0d9401; /* dark green */
+	color: #fff;
 }
 
 td {
-	background-color: #e1f5fe;
+	background-color: #d2ffcf; /* very light green */
 }
 
 tr:nth-child(even) td {
-	background-color: #b3e5fc;
+	background-color: #8cf783; /* medium green */
 }
 
 #data {

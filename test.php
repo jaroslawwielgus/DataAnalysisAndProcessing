@@ -1,5 +1,4 @@
 <?php
-
 function run_db_test($conn)
 {
     $statement = $conn->query('SELECT * FROM `users`');
@@ -29,3 +28,4 @@ function run_db_test($conn)
     print_r($transactions);
     print_r('</br>');
 }
+?>

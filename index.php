@@ -5,16 +5,16 @@ include_once('model.php');
 include_once('test.php');
 
 $conn = get_connect();
-// init_db($conn);
+init_db($conn);
 
 // Uncomment to see data in db
 // run_db_test($conn);
   
-$month_names = [
-    '01' => 'January',
-    '02' => 'February',
-    '03' => 'March'
-]
+// $month_names = [
+//     '01' => 'January',
+//     '02' => 'February',
+//     '03' => 'March'
+// ]
 ?>
     
 <!DOCTYPE html>
@@ -28,8 +28,9 @@ $month_names = [
 <body>
   <h1>Informacja o transakcjach użytkownika</h1>
   <form action="data.php" method="get">
-    <label for="user">Select user:</label>
-    <select name="user" id="user">
+    <label for="user">Wybierz użytkownika:</label>
+    <select name="user" id="user" onfocus='this.size=2;' onblur='this.size=0;' 
+            onchange='this.size=1; this.blur();'>
     <?php
     $users = get_users($conn);
     foreach ($users as $id => $name) {
@@ -41,13 +42,13 @@ $month_names = [
   </form>
 
   <div id="data">
-      <h2>Transakcje `User name`</h2>
+      <h2>Transakcje dla </h2>
       <table>
-          <tr><th>Mounth</th><th>Amount</th></tr>
-          <tr><td>...</td><td>...</td>
+          <tr><th>Miesiąc</th><th>Saldo</th></tr>
       </table>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="./js/script.js"></script>
 </body>
 </html>
