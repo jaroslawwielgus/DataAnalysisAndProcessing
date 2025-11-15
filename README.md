@@ -16,7 +16,7 @@ Backend requests are sent without reloading the page.
 ## Technologies
 Creating the app required from me knowledge of PHP (including writing SQL queries), html, css, js, jQuery. I saved and read the data in / from sqlite database. I handled exceptions. The app is resposive.
 ## Running
-At first, you should create the database_php_data_analysis_and_processing.sqlite file in the main folder with app. It should be initially blank.
+At first, you should create the `database_php_data_analysis_and_processing.sqlite` file in the main folder with app. It should be initially blank.
 
 You can run the app in Xampp. You need to place the folder with my project in this directory: `C:\xampp\htdocs`. Then, in Xampp Control Panel you should start the Apache server. Next, when you write in the brower: `http://localhost/DataAnalysisAndProcessing/` where DataAnalysisAndProcessing is the name of the folder with app, you will see the app. You can see the data in the database using DB Brower for SQLite app.
 
