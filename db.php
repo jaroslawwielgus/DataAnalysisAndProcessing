@@ -2,7 +2,7 @@
 
 function get_connect() {
     $dbPath = __DIR__ . '/database_php_data_analysis_and_processing.sqlite';
-    return new PDO("sqlite:file:" . $dbPath);
+    return new PDO("sqlite:" . $dbPath);
 }
 
 function init_db($conn) {
