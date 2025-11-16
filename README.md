@@ -13,6 +13,8 @@ The user is selected from a dropdown menu. Only users with transactions will app
 The result is displayed in a table format, where the first column shows the month, and the second column shows the monthly balance.
 
 Backend requests are sent without reloading the page.
+
+The data are present in the **db.php** file which I add to the database and after calculating the balance, the scores will look excactly like in the gif.
 ## Technologies
 Creating the app required from me knowledge of PHP (including writing SQL queries), html, css, js, jQuery. I saved and read the data in / from sqlite database. I handled exceptions. The app is resposive.
 ## Running
